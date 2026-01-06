@@ -1,0 +1,2391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmConnect - Farmer to Buyer Marketplace</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== RESET & BASE STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f7fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: #2c8c3a;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #247932;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid #2c8c3a;
+            color: #2c8c3a;
+        }
+
+        .btn-outline:hover {
+            background-color: #2c8c3a;
+            color: white;
+        }
+
+        .btn-large {
+            padding: 15px 30px;
+            font-size: 1.1rem;
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+
+        .btn-small {
+            padding: 5px 10px;
+            font-size: 0.9rem;
+        }
+
+        /* ===== NAVIGATION ===== */
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-brand h1 {
+            font-size: 1.8rem;
+            margin: 0;
+            color: #2c8c3a;
+        }
+
+        .user-role {
+            background-color: #e8f5e9;
+            color: #2c8c3a;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .nav-link {
+            color: #2c3e50;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background-color: #f8f9fa;
+            color: #2c8c3a;
+        }
+
+        /* ===== FORMS ===== */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #2c8c3a;
+            box-shadow: 0 0 0 3px rgba(44, 140, 58, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* ===== SECTIONS ===== */
+        .section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* ===== CARDS ===== */
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* ===== GRIDS ===== */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        /* ===== AUTH PAGES ===== */
+        .auth-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 100vh;
+        }
+
+        .auth-card {
+            padding: 3rem 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: white;
+        }
+
+        .auth-side {
+            background: linear-gradient(135deg, #2c8c3a 0%, #247932 100%);
+            color: white;
+            padding: 3rem 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        /* ===== DASHBOARD ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            border-left: 4px solid #2c8c3a;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #2c8c3a;
+            margin-top: 0.5rem;
+        }
+
+        /* ===== PRODUCTS ===== */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .product-image {
+            height: 200px;
+            background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #7f8c8d;
+        }
+
+        .product-content {
+            padding: 1.5rem;
+        }
+
+        /* ===== MODAL ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 800px;
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #7f8c8d;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        /* ===== CHAT ===== */
+        .chat-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 1.5rem;
+            height: 500px;
+        }
+
+        .chat-sidebar {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-main {
+            background-color: white;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== LOADING STATES ===== */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #7f8c8d;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: #7f8c8d;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .grid-2,
+            .grid-3,
+            .grid-4 {
+                grid-template-columns: 1fr;
+            }
+            
+            .auth-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .auth-side {
+                display: none;
+            }
+            
+            .chat-container {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+            
+            .nav-menu {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+                padding: 1rem;
+            }
+        }
+
+        /* ===== UTILITY CLASSES ===== */
+        .text-center { text-align: center; }
+        .text-primary { color: #2c8c3a; }
+        .text-secondary { color: #3498db; }
+        .text-muted { color: #7f8c8d; }
+        .mt-1 { margin-top: 1rem; }
+        .mt-2 { margin-top: 2rem; }
+        .mt-3 { margin-top: 3rem; }
+        .mb-1 { margin-bottom: 1rem; }
+        .mb-2 { margin-bottom: 2rem; }
+        .mb-3 { margin-bottom: 3rem; }
+        .hidden { display: none; }
+        .visible { display: block; }
+    </style>
+</head>
+<body>
+    <!-- App Container -->
+    <div id="app">
+        <!-- Different pages will be rendered here dynamically -->
+        <div id="page-content"></div>
+    </div>
+
+    <!-- Modal Container -->
+    <div id="modal-container"></div>
+
+    <!-- All JavaScript Code -->
+    <script>
+        // ==============================================
+        // APPLICATION STATE & CONFIGURATION
+        // ==============================================
+        const AppState = {
+            currentUser: null,
+            currentPage: 'home',
+            products: [],
+            orders: [],
+            marketPrices: {},
+            chatRooms: new Map(),
+            currentChatRoom: null,
+            socket: null
+        };
+
+        const Config = {
+            API_BASE_URL: 'https://api.farmconnect.com', // Replace with your backend URL
+            COMMISSION_RATE: 0.03, // 3% commission
+            APP_NAME: 'FarmConnect'
+        };
+
+        // ==============================================
+        // UTILITY FUNCTIONS
+        // ==============================================
+        const Utils = {
+            // Format currency (Indian Rupees)
+            formatCurrency(amount) {
+                return new Intl.NumberFormat('en-IN', {
+                    style: 'currency',
+                    currency: 'INR',
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                }).format(amount);
+            },
+
+            // Format date
+            formatDate(dateString) {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-IN', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric'
+                });
+            },
+
+            // Format date with time
+            formatDateTime(dateString) {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-IN', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            },
+
+            // Calculate time ago
+            timeAgo(dateString) {
+                const date = new Date(dateString);
+                const now = new Date();
+                const seconds = Math.floor((now - date) / 1000);
+                
+                if (seconds < 60) return 'just now';
+                
+                const minutes = Math.floor(seconds / 60);
+                if (minutes < 60) return `${minutes}m ago`;
+                
+                const hours = Math.floor(minutes / 60);
+                if (hours < 24) return `${hours}h ago`;
+                
+                const days = Math.floor(hours / 24);
+                if (days < 7) return `${days}d ago`;
+                
+                return this.formatDate(dateString);
+            },
+
+            // Validate mobile number (Indian)
+            validateMobile(mobile) {
+                return /^[6-9]\d{9}$/.test(mobile);
+            },
+
+            // Generate random ID
+            generateId() {
+                return Math.random().toString(36).substr(2, 9);
+            },
+
+            // Show notification
+            showNotification(message, type = 'info') {
+                const notification = document.createElement('div');
+                notification.className = `notification notification-${type}`;
+                notification.innerHTML = `
+                    <span>${message}</span>
+                    <button onclick="this.parentElement.remove()">&times;</button>
+                `;
+                
+                // Add styles if not already added
+                if (!document.querySelector('#notification-styles')) {
+                    const styles = document.createElement('style');
+                    styles.id = 'notification-styles';
+                    styles.textContent = `
+                        .notification {
+                            position: fixed;
+                            top: 20px;
+                            right: 20px;
+                            padding: 15px 20px;
+                            border-radius: 8px;
+                            color: white;
+                            font-weight: 500;
+                            z-index: 9999;
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            gap: 15px;
+                            min-width: 300px;
+                            max-width: 400px;
+                            animation: slideIn 0.3s ease;
+                            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                        }
+                        .notification-info { background-color: #3498db; }
+                        .notification-success { background-color: #2c8c3a; }
+                        .notification-warning { background-color: #f39c12; }
+                        .notification-error { background-color: #e74c3c; }
+                        .notification button {
+                            background: none;
+                            border: none;
+                            color: white;
+                            font-size: 1.5rem;
+                            cursor: pointer;
+                            padding: 0;
+                            line-height: 1;
+                        }
+                        @keyframes slideIn {
+                            from { transform: translateX(100%); opacity: 0; }
+                            to { transform: translateX(0); opacity: 1; }
+                        }
+                    `;
+                    document.head.appendChild(styles);
+                }
+                
+                document.body.appendChild(notification);
+                
+                // Auto remove after 5 seconds
+                setTimeout(() => {
+                    if (notification.parentElement) {
+                        notification.remove();
+                    }
+                }, 5000);
+            },
+
+            // Debounce function
+            debounce(func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            }
+        };
+
+        // ==============================================
+        // DATA STORAGE (LocalStorage wrapper)
+        // ==============================================
+        const Storage = {
+            get(key) {
+                try {
+                    return JSON.parse(localStorage.getItem(key));
+                } catch (e) {
+                    return localStorage.getItem(key);
+                }
+            },
+
+            set(key, value) {
+                if (typeof value === 'object') {
+                    localStorage.setItem(key, JSON.stringify(value));
+                } else {
+                    localStorage.setItem(key, value);
+                }
+            },
+
+            remove(key) {
+                localStorage.removeItem(key);
+            },
+
+            clear() {
+                localStorage.clear();
+            }
+        };
+
+        // ==============================================
+        // MOCK DATA FOR DEMONSTRATION
+        // ==============================================
+        const MockData = {
+            users: [
+                {
+                    id: 'farmer1',
+                    username: 'farmer1',
+                    password: 'password123',
+                    fullName: 'Rajesh Kumar',
+                    mobile: '9876543210',
+                    role: 'farmer',
+                    location: { district: 'Pune', state: 'Maharashtra' },
+                    rating: 4.5,
+                    totalTransactions: 25
+                },
+                {
+                    id: 'buyer1',
+                    username: 'buyer1',
+                    password: 'password123',
+                    fullName: 'Amit Sharma',
+                    mobile: '9876543211',
+                    role: 'buyer',
+                    location: { district: 'Mumbai', state: 'Maharashtra' },
+                    rating: 4.2,
+                    totalTransactions: 12
+                }
+            ],
+
+            products: [
+                {
+                    id: 'prod1',
+                    farmerId: 'farmer1',
+                    productName: 'Tomato',
+                    category: 'vegetables',
+                    description: 'Fresh organic tomatoes from our farm',
+                    quantity: { value: 100, unit: 'kg' },
+                    pricePerUnit: 30,
+                    marketPrice: 32,
+                    images: [],
+                    harvestDate: new Date().toISOString(),
+                    location: { district: 'Pune', state: 'Maharashtra' },
+                    qualityGrade: 'organic',
+                    isAvailable: true,
+                    views: 45,
+                    tags: ['fresh', 'organic', 'premium'],
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: 'prod2',
+                    farmerId: 'farmer1',
+                    productName: 'Potato',
+                    category: 'vegetables',
+                    description: 'Fresh potatoes, perfect for cooking',
+                    quantity: { value: 200, unit: 'kg' },
+                    pricePerUnit: 18,
+                    marketPrice: 20,
+                    images: [],
+                    harvestDate: new Date().toISOString(),
+                    location: { district: 'Pune', state: 'Maharashtra' },
+                    qualityGrade: 'grade-a',
+                    isAvailable: true,
+                    views: 32,
+                    tags: ['fresh', 'grade-a'],
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: 'prod3',
+                    farmerId: 'farmer2',
+                    productName: 'Onion',
+                    category: 'vegetables',
+                    description: 'Fresh red onions',
+                    quantity: { value: 150, unit: 'kg' },
+                    pricePerUnit: 28,
+                    marketPrice: 30,
+                    images: [],
+                    harvestDate: new Date().toISOString(),
+                    location: { district: 'Nashik', state: 'Maharashtra' },
+                    qualityGrade: 'regular',
+                    isAvailable: true,
+                    views: 28,
+                    tags: ['fresh'],
+                    createdAt: new Date().toISOString()
+                }
+            ],
+
+            marketPrices: {
+                'tomato': { price: 32, trend: 'up', change: 2 },
+                'potato': { price: 18, trend: 'down', change: 1 },
+                'onion': { price: 28, trend: 'stable', change: 0 },
+                'rice': { price: 45, trend: 'up', change: 3 },
+                'wheat': { price: 22, trend: 'stable', change: 0 },
+                'mango': { price: 60, trend: 'up', change: 5 }
+            }
+        };
+
+        // ==============================================
+        // ROUTER - Handles page navigation
+        // ==============================================
+        const Router = {
+            routes: {},
+
+            addRoute(path, handler) {
+                this.routes[path] = handler;
+            },
+
+            navigate(path) {
+                window.history.pushState({}, '', path);
+                this.handleRoute();
+            },
+
+            handleRoute() {
+                const path = window.location.pathname || '/';
+                
+                // Default routes
+                if (path === '/' || path === '/index.html') {
+                    this.renderHomePage();
+                } else if (path === '/login') {
+                    this.renderLoginPage();
+                } else if (path === '/signup') {
+                    this.renderSignupPage();
+                } else if (path === '/farmer-dashboard') {
+                    this.renderFarmerDashboard();
+                } else if (path === '/buyer-dashboard') {
+                    this.renderBuyerDashboard();
+                } else {
+                    this.renderHomePage();
+                }
+            },
+
+            // Render methods for each page
+            renderHomePage() {
+                const html = `
+                    <nav class="navbar">
+                        <div class="container">
+                            <div class="nav-brand">
+                                <h1><i class="fas fa-tractor"></i> ${Config.APP_NAME}</h1>
+                                <span class="tagline">Direct Farm to Table</span>
+                            </div>
+                            <div class="nav-menu">
+                                <a href="#features" class="nav-link">Features</a>
+                                <a href="#how-it-works" class="nav-link">How It Works</a>
+                                <a href="#about" class="nav-link">About</a>
+                                <div class="nav-buttons">
+                                    <button onclick="Router.navigate('/login')" class="btn btn-outline">Login</button>
+                                    <button onclick="Router.navigate('/signup')" class="btn btn-primary">Sign Up</button>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+
+                    <section class="hero" style="padding: 4rem 0; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+                        <div class="container">
+                            <div class="grid-2">
+                                <div>
+                                    <h1 style="font-size: 3rem; margin-bottom: 1.5rem;">Connecting Farmers Directly with Buyers</h1>
+                                    <p style="font-size: 1.2rem; color: #666; margin-bottom: 2rem;">
+                                        Eliminate middlemen, get better prices for farmers, and fresh produce for buyers.
+                                        Join India's fastest growing agricultural marketplace.
+                                    </p>
+                                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                                        <button onclick="Router.navigate('/signup?role=farmer')" class="btn btn-primary btn-large">
+                                            <i class="fas fa-user"></i> I'm a Farmer
+                                        </button>
+                                        <button onclick="Router.navigate('/signup?role=buyer')" class="btn btn-secondary btn-large">
+                                            <i class="fas fa-shopping-cart"></i> I'm a Buyer
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div style="background-color: #e8f5e9; border-radius: 8px; padding: 2rem; height: 100%;">
+                                        <h3 style="color: #2c8c3a; margin-bottom: 1rem;">Why Choose ${Config.APP_NAME}?</h3>
+                                        <ul style="list-style: none; padding: 0;">
+                                            <li style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 10px;">
+                                                <i class="fas fa-check-circle" style="color: #2c8c3a;"></i>
+                                                <span>Farmers get 20-30% higher prices</span>
+                                            </li>
+                                            <li style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 10px;">
+                                                <i class="fas fa-check-circle" style="color: #2c8c3a;"></i>
+                                                <span>Buyers save 15-25% on fresh produce</span>
+                                            </li>
+                                            <li style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 10px;">
+                                                <i class="fas fa-check-circle" style="color: #2c8c3a;"></i>
+                                                <span>Direct communication - No middlemen</span>
+                                            </li>
+                                            <li style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 10px;">
+                                                <i class="fas fa-check-circle" style="color: #2c8c3a;"></i>
+                                                <span>Live market price updates</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="features" style="padding: 4rem 0; background-color: white;">
+                        <div class="container">
+                            <h2 class="text-center mb-3">Platform Features</h2>
+                            <div class="grid-4">
+                                <div class="card">
+                                    <div style="font-size: 2.5rem; color: #2c8c3a; margin-bottom: 1rem;">
+                                        <i class="fas fa-rupee-sign"></i>
+                                    </div>
+                                    <h3>Better Prices</h3>
+                                    <p>Farmers get 20-30% higher prices, buyers save 15-25% compared to traditional markets.</p>
+                                </div>
+                                <div class="card">
+                                    <div style="font-size: 2.5rem; color: #2c8c3a; margin-bottom: 1rem;">
+                                        <i class="fas fa-comments"></i>
+                                    </div>
+                                    <h3>Direct Chat</h3>
+                                    <p>Communicate directly with farmers or buyers through our secure in-app chat system.</p>
+                                </div>
+                                <div class="card">
+                                    <div style="font-size: 2.5rem; color: #2c8c3a; margin-bottom: 1rem;">
+                                        <i class="fas fa-chart-line"></i>
+                                    </div>
+                                    <h3>Live Market Data</h3>
+                                    <p>Real-time market price updates help you make informed buying and selling decisions.</p>
+                                </div>
+                                <div class="card">
+                                    <div style="font-size: 2.5rem; color: #2c8c3a; margin-bottom: 1rem;">
+                                        <i class="fas fa-shield-alt"></i>
+                                    </div>
+                                    <h3>Secure Transactions</h3>
+                                    <p>3% platform commission with secure payment handling and dispute resolution.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section style="padding: 4rem 0; background-color: #f8f9fa;">
+                        <div class="container text-center">
+                            <h2 class="mb-2">Ready to Get Started?</h2>
+                            <p class="mb-3" style="font-size: 1.1rem;">Join thousands of farmers and buyers who are already benefiting from direct connections.</p>
+                            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                                <button onclick="Router.navigate('/signup?role=farmer')" class="btn btn-primary btn-large">
+                                    <i class="fas fa-seedling"></i> Start Selling
+                                </button>
+                                <button onclick="Router.navigate('/signup?role=buyer')" class="btn btn-secondary btn-large">
+                                    <i class="fas fa-shopping-basket"></i> Start Buying
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <footer style="background-color: #2c3e50; color: white; padding: 3rem 0;">
+                        <div class="container">
+                            <div class="grid-3">
+                                <div>
+                                    <h3 style="color: white; margin-bottom: 1rem;">${Config.APP_NAME}</h3>
+                                    <p>Bridging the gap between farmers and buyers.</p>
+                                </div>
+                                <div>
+                                    <h4 style="color: white; margin-bottom: 1rem;">Quick Links</h4>
+                                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                        <a href="#" onclick="Router.navigate('/login')" style="color: #ddd;">Login</a>
+                                        <a href="#" onclick="Router.navigate('/signup')" style="color: #ddd;">Sign Up</a>
+                                        <a href="#features" style="color: #ddd;">Features</a>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 style="color: white; margin-bottom: 1rem;">Contact</h4>
+                                    <p>Email: support@farmconnect.com</p>
+                                    <p>Phone: +91 1800-123-4567</p>
+                                </div>
+                            </div>
+                            <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #4a6572;">
+                                <p>&copy; 2023 ${Config.APP_NAME}. All rights reserved.</p>
+                            </div>
+                        </div>
+                    </footer>
+                `;
+                document.getElementById('page-content').innerHTML = html;
+            },
+
+            renderLoginPage() {
+                const html = `
+                    <div class="auth-container">
+                        <div class="auth-card">
+                            <div class="auth-header">
+                                <h1>Welcome Back</h1>
+                                <p>Login to your ${Config.APP_NAME} account</p>
+                            </div>
+                            
+                            <form id="loginForm" class="auth-form" style="max-width: 400px; margin: 0 auto;">
+                                <div class="form-group">
+                                    <label for="username">Username</label>
+                                    <input type="text" id="username" required placeholder="Enter your username">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input type="password" id="password" required placeholder="Enter your password">
+                                </div>
+                                
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                                        <input type="checkbox" id="rememberMe">
+                                        <span>Remember me</span>
+                                    </label>
+                                    <a href="#" style="color: #7f8c8d; font-size: 0.9rem;">Forgot Password?</a>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary btn-block">Login</button>
+                                
+                                <div style="text-align: center; margin: 2rem 0; position: relative;">
+                                    <div style="position: absolute; top: 50%; left: 0; right: 0; height: 1px; background-color: #eee;"></div>
+                                    <span style="background-color: white; padding: 0 1rem; color: #7f8c8d;">New to ${Config.APP_NAME}?</span>
+                                </div>
+                                
+                                <button type="button" onclick="Router.navigate('/signup')" class="btn btn-outline btn-block">Create New Account</button>
+                                
+                                <div style="margin-top: 2rem; text-align: center;">
+                                    <p style="margin-bottom: 1rem;">Test Accounts:</p>
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                        <button type="button" onclick="Auth.loginDemo('farmer1', 'password123')" class="btn" style="background-color: #e8f5e9; color: #2c8c3a;">
+                                            <i class="fas fa-user"></i> Farmer Demo
+                                        </button>
+                                        <button type="button" onclick="Auth.loginDemo('buyer1', 'password123')" class="btn" style="background-color: #e3f2fd; color: #1976d2;">
+                                            <i class="fas fa-shopping-cart"></i> Buyer Demo
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                            
+                            <div style="text-align: center; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #eee; color: #7f8c8d; font-size: 0.9rem;">
+                                <p>By logging in, you agree to our <a href="#" style="color: #2c8c3a;">Terms</a> and <a href="#" style="color: #2c8c3a;">Privacy Policy</a></p>
+                            </div>
+                        </div>
+                        
+                        <div class="auth-side">
+                            <div>
+                                <h2 style="color: white; margin-bottom: 1rem;">${Config.APP_NAME}</h2>
+                                <p style="color: rgba(255,255,255,0.9); margin-bottom: 2rem;">Direct connection between farmers and buyers for fair prices and fresh produce.</p>
+                                
+                                <div style="background-color: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 8px;">
+                                    <h4 style="color: white; margin-bottom: 1rem;">Benefits</h4>
+                                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                                        <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                                            <i class="fas fa-money-bill-wave" style="color: white;"></i>
+                                            <div>
+                                                <h5 style="color: white; margin: 0;">Better Prices</h5>
+                                                <p style="color: rgba(255,255,255,0.8); margin: 0; font-size: 0.9rem;">Get fair market prices without middlemen</p>
+                                            </div>
+                                        </div>
+                                        <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                                            <i class="fas fa-comments" style="color: white;"></i>
+                                            <div>
+                                                <h5 style="color: white; margin: 0;">Direct Contact</h5>
+                                                <p style="color: rgba(255,255,255,0.8); margin: 0; font-size: 0.9rem;">Chat directly with farmers or buyers</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('page-content').innerHTML = html;
+                
+                // Add form submission handler
+                setTimeout(() => {
+                    document.getElementById('loginForm').addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        const username = document.getElementById('username').value;
+                        const password = document.getElementById('password').value;
+                        Auth.login(username, password);
+                    });
+                }, 100);
+            },
+
+            renderSignupPage() {
+                const params = new URLSearchParams(window.location.search);
+                const role = params.get('role') || '';
+                
+                const html = `
+                    <div class="auth-container">
+                        <div class="auth-card">
+                            <div class="auth-header">
+                                <h1>Create Account</h1>
+                                <p>Join ${Config.APP_NAME} as a Farmer or Buyer</p>
+                            </div>
+                            
+                            <form id="signupForm" class="auth-form" style="max-width: 400px; margin: 0 auto;">
+                                <div class="form-group">
+                                    <label for="role">I am a</label>
+                                    <select id="role" required>
+                                        <option value="">Select Role</option>
+                                        <option value="farmer" ${role === 'farmer' ? 'selected' : ''}>Farmer 👨‍🌾</option>
+                                        <option value="buyer" ${role === 'buyer' ? 'selected' : ''}>Buyer 🛒</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="fullName">Full Name</label>
+                                    <input type="text" id="fullName" required placeholder="Enter your full name">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="username">Username</label>
+                                    <input type="text" id="username" required placeholder="Choose a username">
+                                    <small style="color: #7f8c8d;">This will be your unique identifier</small>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="mobile">Mobile Number</label>
+                                    <div style="display: flex; gap: 10px;">
+                                        <input type="tel" id="mobile" required placeholder="9876543210" style="flex: 1;">
+                                        <button type="button" id="sendOtpBtn" class="btn btn-small">Send OTP</button>
+                                    </div>
+                                    <small style="color: #7f8c8d;">Indian mobile number (10 digits)</small>
+                                </div>
+                                
+                                <div class="form-group" id="otpGroup" style="display: none;">
+                                    <label for="otp">Enter OTP</label>
+                                    <input type="text" id="otp" placeholder="Enter 6-digit OTP" maxlength="6">
+                                    <small style="color: #7f8c8d;">Check your phone for OTP. Valid for 10 minutes.</small>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input type="password" id="password" required placeholder="Create a password (min 6 chars)">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="confirmPassword">Confirm Password</label>
+                                    <input type="password" id="confirmPassword" required placeholder="Confirm your password">
+                                </div>
+                                
+                                <div style="margin-bottom: 1.5rem;">
+                                    <label style="display: flex; align-items: flex-start; gap: 8px; cursor: pointer;">
+                                        <input type="checkbox" id="terms" required style="margin-top: 4px;">
+                                        <span>I agree to the <a href="#" style="color: #2c8c3a;">Terms of Service</a> and <a href="#" style="color: #2c8c3a;">Privacy Policy</a></span>
+                                    </label>
+                                </div>
+                                
+                                <button type="submit" id="signupBtn" class="btn btn-primary btn-block" disabled>
+                                    Create Account
+                                </button>
+                                
+                                <div style="text-align: center; margin: 2rem 0; position: relative;">
+                                    <div style="position: absolute; top: 50%; left: 0; right: 0; height: 1px; background-color: #eee;"></div>
+                                    <span style="background-color: white; padding: 0 1rem; color: #7f8c8d;">Already have an account?</span>
+                                </div>
+                                
+                                <button type="button" onclick="Router.navigate('/login')" class="btn btn-outline btn-block">Login Instead</button>
+                            </form>
+                        </div>
+                        
+                        <div class="auth-side">
+                            <div>
+                                <h2 style="color: white; margin-bottom: 1.5rem;">Why Join ${Config.APP_NAME}?</h2>
+                                
+                                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                                    <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                                        <div style="background-color: rgba(255,255,255,0.1); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                            <i class="fas fa-money-bill-wave" style="color: white; font-size: 1.2rem;"></i>
+                                        </div>
+                                        <div>
+                                            <h4 style="color: white; margin: 0 0 0.25rem 0;">Better Prices</h4>
+                                            <p style="color: rgba(255,255,255,0.8); margin: 0; font-size: 0.9rem;">Get fair market prices without middlemen</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                                        <div style="background-color: rgba(255,255,255,0.1); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                            <i class="fas fa-mobile-alt" style="color: white; font-size: 1.2rem;"></i>
+                                        </div>
+                                        <div>
+                                            <h4 style="color: white; margin: 0 0 0.25rem 0;">Easy to Use</h4>
+                                            <p style="color: rgba(255,255,255,0.8); margin: 0; font-size: 0.9rem;">Simple interface designed for everyone</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                                        <div style="background-color: rgba(255,255,255,0.1); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                            <i class="fas fa-shield-alt" style="color: white; font-size: 1.2rem;"></i>
+                                        </div>
+                                        <div>
+                                            <h4 style="color: white; margin: 0 0 0.25rem 0;">Secure</h4>
+                                            <p style="color: rgba(255,255,255,0.8); margin: 0; font-size: 0.9rem;">Protected transactions and data privacy</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div id="roleBenefits" style="margin-top: 2rem; padding: 1.5rem; background-color: rgba(255,255,255,0.1); border-radius: 8px;">
+                                    <!-- Benefits will be shown based on role selection -->
+                                    <h4 style="color: white; margin-bottom: 1rem;">Select Your Role</h4>
+                                    <p style="color: rgba(255,255,255,0.8);">Choose whether you're a Farmer or Buyer to see specific benefits.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('page-content').innerHTML = html;
+                
+                // Add event listeners
+                setTimeout(() => {
+                    // Role selection handler
+                    document.getElementById('role').addEventListener('change', function() {
+                        updateRoleBenefits(this.value);
+                    });
+                    
+                    // Send OTP button
+                    document.getElementById('sendOtpBtn').addEventListener('click', function() {
+                        const mobile = document.getElementById('mobile').value;
+                        if (Utils.validateMobile(mobile)) {
+                            Utils.showNotification('OTP sent to your mobile number: 123456', 'success');
+                            document.getElementById('otpGroup').style.display = 'block';
+                            document.getElementById('signupBtn').disabled = false;
+                            
+                            // Disable button for 60 seconds
+                            this.disabled = true;
+                            let timeLeft = 60;
+                            const interval = setInterval(() => {
+                                this.textContent = `Resend (${timeLeft}s)`;
+                                timeLeft--;
+                                if (timeLeft < 0) {
+                                    clearInterval(interval);
+                                    this.textContent = 'Send OTP';
+                                    this.disabled = false;
+                                }
+                            }, 1000);
+                        } else {
+                            Utils.showNotification('Please enter a valid 10-digit Indian mobile number', 'warning');
+                        }
+                    });
+                    
+                    // Form submission
+                    document.getElementById('signupForm').addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        
+                        const role = document.getElementById('role').value;
+                        const fullName = document.getElementById('fullName').value;
+                        const username = document.getElementById('username').value;
+                        const mobile = document.getElementById('mobile').value;
+                        const password = document.getElementById('password').value;
+                        const confirmPassword = document.getElementById('confirmPassword').value;
+                        
+                        if (!role) {
+                            Utils.showNotification('Please select your role', 'warning');
+                            return;
+                        }
+                        
+                        if (!fullName || !username || !mobile || !password || !confirmPassword) {
+                            Utils.showNotification('Please fill all required fields', 'warning');
+                            return;
+                        }
+                        
+                        if (!Utils.validateMobile(mobile)) {
+                            Utils.showNotification('Please enter a valid 10-digit Indian mobile number', 'warning');
+                            return;
+                        }
+                        
+                        if (password.length < 6) {
+                            Utils.showNotification('Password must be at least 6 characters long', 'warning');
+                            return;
+                        }
+                        
+                        if (password !== confirmPassword) {
+                            Utils.showNotification('Passwords do not match', 'warning');
+                            return;
+                        }
+                        
+                        // Create user
+                        const user = {
+                            id: Utils.generateId(),
+                            username: username,
+                            fullName: fullName,
+                            mobile: mobile,
+                            password: password,
+                            role: role,
+                            location: { district: '', state: '' },
+                            rating: 0,
+                            totalTransactions: 0,
+                            createdAt: new Date().toISOString()
+                        };
+                        
+                        // Save to localStorage
+                        Storage.set('currentUser', user);
+                        AppState.currentUser = user;
+                        
+                        Utils.showNotification('Account created successfully!', 'success');
+                        
+                        // Redirect to appropriate dashboard
+                        setTimeout(() => {
+                            if (role === 'farmer') {
+                                Router.navigate('/farmer-dashboard');
+                            } else {
+                                Router.navigate('/buyer-dashboard');
+                            }
+                        }, 1500);
+                    });
+                    
+                    // Initial role benefits update
+                    updateRoleBenefits(role || '');
+                }, 100);
+                
+                function updateRoleBenefits(role) {
+                    const benefitsDiv = document.getElementById('roleBenefits');
+                    if (role === 'farmer') {
+                        benefitsDiv.innerHTML = `
+                            <h4 style="color: white; margin-bottom: 1rem;">👨‍🌾 Benefits for Farmers</h4>
+                            <ul style="color: rgba(255,255,255,0.8); padding-left: 1.5rem; margin: 0;">
+                                <li>Get 20-30% better prices than wholesale markets</li>
+                                <li>Direct contact with buyers - no middlemen</li>
+                                <li>Real-time market price information</li>
+                                <li>Secure payments with 3% platform commission</li>
+                            </ul>
+                        `;
+                    } else if (role === 'buyer') {
+                        benefitsDiv.innerHTML = `
+                            <h4 style="color: white; margin-bottom: 1rem;">🛒 Benefits for Buyers</h4>
+                            <ul style="color: rgba(255,255,255,0.8); padding-left: 1.5rem; margin: 0;">
+                                <li>Get fresh produce directly from farmers</li>
+                                <li>Save 15-25% compared to retail prices</li>
+                                <li>Choose from verified farmers with ratings</li>
+                                <li>Real-time price comparison with market rates</li>
+                            </ul>
+                        `;
+                    } else {
+                        benefitsDiv.innerHTML = `
+                            <h4 style="color: white; margin-bottom: 1rem;">Select Your Role</h4>
+                            <p style="color: rgba(255,255,255,0.8);">Choose whether you're a Farmer or Buyer to see specific benefits.</p>
+                        `;
+                    }
+                }
+            },
+
+            renderFarmerDashboard() {
+                // Check authentication
+                if (!AppState.currentUser) {
+                    Storage.set('currentUser', null);
+                    Router.navigate('/login');
+                    return;
+                }
+                
+                const user = AppState.currentUser;
+                const farmerProducts = MockData.products.filter(p => p.farmerId === 'farmer1');
+                const activeProducts = farmerProducts.filter(p => p.isAvailable).length;
+                const totalEarnings = 45000; // Mock data
+                
+                const html = `
+                    <nav class="navbar">
+                        <div class="container">
+                            <div class="nav-brand">
+                                <h1><i class="fas fa-tractor"></i> ${Config.APP_NAME}</h1>
+                                <span class="user-role">Farmer Dashboard</span>
+                            </div>
+                            <div class="nav-menu">
+                                <a href="#" class="nav-link active" onclick="showSection('dashboard')">
+                                    <i class="fas fa-home"></i> Dashboard
+                                </a>
+                                <a href="#" class="nav-link" onclick="showSection('products')">
+                                    <i class="fas fa-apple-alt"></i> My Products
+                                </a>
+                                <a href="#" class="nav-link" onclick="showSection('addProduct')">
+                                    <i class="fas fa-plus-circle"></i> Add Product
+                                </a>
+                                <a href="#" class="nav-link" onclick="showSection('orders')">
+                                    <i class="fas fa-shopping-cart"></i> Orders
+                                </a>
+                                <div style="margin-left: auto; position: relative;">
+                                    <button style="background: none; border: none; color: #2c3e50; font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                                        <i class="fas fa-user-circle"></i>
+                                        <span>${user.fullName}</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </button>
+                                    <div style="position: absolute; right: 0; background-color: white; border-radius: 4px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); min-width: 150px; display: none;">
+                                        <a href="#" style="display: block; padding: 10px 15px; color: #333; text-decoration: none;">Profile</a>
+                                        <a href="#" onclick="Auth.logout()" style="display: block; padding: 10px 15px; color: #e74c3c; text-decoration: none;">Logout</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+
+                    <div class="container" style="padding: 2rem 0;">
+                        <!-- Dashboard Section -->
+                        <div id="dashboardSection" class="section">
+                            <div class="section-header">
+                                <h2><i class="fas fa-chart-line"></i> Dashboard Overview</h2>
+                                <p>Welcome back, ${user.fullName}! Here's your farming summary.</p>
+                            </div>
+                            
+                            <div class="stats-grid">
+                                <div class="stat-card">
+                                    <h3>Total Earnings</h3>
+                                    <p class="stat-value">${Utils.formatCurrency(totalEarnings)}</p>
+                                    <small>+12% this month</small>
+                                </div>
+                                <div class="stat-card">
+                                    <h3>Active Products</h3>
+                                    <p class="stat-value">${activeProducts}</p>
+                                    <small>${farmerProducts.length} total listed</small>
+                                </div>
+                                <div class="stat-card">
+                                    <h3>Pending Orders</h3>
+                                    <p class="stat-value">3</p>
+                                    <small>2 new today</small>
+                                </div>
+                                <div class="stat-card">
+                                    <h3>Your Rating</h3>
+                                    <p class="stat-value">${user.rating || '0.0'}</p>
+                                    <small>based on ${user.totalTransactions || 0} reviews</small>
+                                </div>
+                            </div>
+                            
+                            <div class="grid-2 mt-3">
+                                <div class="card">
+                                    <h3><i class="fas fa-apple-alt"></i> Recent Products</h3>
+                                    <div id="recentProducts" style="margin-top: 1rem;">
+                                        ${farmerProducts.slice(0, 3).map(product => `
+                                            <div style="padding: 1rem; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
+                                                <div>
+                                                    <h4 style="margin: 0;">${product.productName}</h4>
+                                                    <p style="margin: 0.25rem 0; color: #7f8c8d;">${product.quantity.value} ${product.quantity.unit} • ₹${product.pricePerUnit}/${product.quantity.unit}</p>
+                                                </div>
+                                                <span style="background-color: ${product.isAvailable ? '#d4edda' : '#f8d7da'}; color: ${product.isAvailable ? '#155724' : '#721c24'}; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem;">
+                                                    ${product.isAvailable ? 'Available' : 'Sold'}
+                                                </span>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                                
+                                <div class="card">
+                                    <h3><i class="fas fa-chart-bar"></i> Market Prices</h3>
+                                    <div id="marketPrices" style="margin-top: 1rem;">
+                                        ${Object.entries(MockData.marketPrices).slice(0, 5).map(([product, data]) => `
+                                            <div style="padding: 1rem; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
+                                                <span>${product.toUpperCase()}</span>
+                                                <div>
+                                                    <span>₹${data.price}/kg</span>
+                                                    <span style="color: ${data.trend === 'up' ? '#2c8c3a' : data.trend === 'down' ? '#e74c3c' : '#7f8c8d'}; margin-left: 10px;">
+                                                        ${data.trend === 'up' ? '↗' : data.trend === 'down' ? '↘' : '→'} ${data.change}%
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card mt-3">
+                                <h3><i class="fas fa-bullhorn"></i> Quick Actions</h3>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                                    <button onclick="showSection('addProduct')" class="btn" style="background-color: #f8f9fa; border: 1px solid #ddd;">
+                                        <i class="fas fa-plus"></i> Add New Product
+                                    </button>
+                                    <button onclick="showSection('products')" class="btn" style="background-color: #f8f9fa; border: 1px solid #ddd;">
+                                        <i class="fas fa-edit"></i> Manage Products
+                                    </button>
+                                    <button onclick="showSection('orders')" class="btn" style="background-color: #f8f9fa; border: 1px solid #ddd;">
+                                        <i class="fas fa-shopping-cart"></i> View Orders
+                                    </button>
+                                    <button onclick="Utils.showNotification('Profile feature coming soon!', 'info')" class="btn" style="background-color: #f8f9fa; border: 1px solid #ddd;">
+                                        <i class="fas fa-user-edit"></i> Update Profile
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- My Products Section -->
+                        <div id="productsSection" class="section" style="display: none;">
+                            <div class="section-header">
+                                <h2><i class="fas fa-apple-alt"></i> My Products</h2>
+                                <button onclick="showSection('addProduct')" class="btn btn-primary">
+                                    <i class="fas fa-plus"></i> Add New Product
+                                </button>
+                            </div>
+                            
+                            <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+                                <select id="productFilter" class="form-group" style="width: auto;">
+                                    <option value="all">All Products</option>
+                                    <option value="available">Available Only</option>
+                                    <option value="sold">Sold Out</option>
+                                </select>
+                                <input type="text" id="productSearch" placeholder="Search products..." style="flex: 1;">
+                            </div>
+                            
+                            <div class="products-grid" id="productsGrid">
+                                ${farmerProducts.map(product => `
+                                    <div class="product-card">
+                                        <div class="product-image">
+                                            <i class="fas fa-apple-alt" style="font-size: 3rem; color: #7f8c8d;"></i>
+                                        </div>
+                                        <div class="product-content">
+                                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                                                <h3 style="margin: 0;">${product.productName}</h3>
+                                                <span style="color: #7f8c8d; font-size: 0.9rem;">${product.category}</span>
+                                            </div>
+                                            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; color: #666;">
+                                                <span>${product.quantity.value} ${product.quantity.unit}</span>
+                                                <span>Harvest: ${Utils.formatDate(product.harvestDate)}</span>
+                                            </div>
+                                            <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 4px; margin-bottom: 1rem;">
+                                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                                    <span style="color: #7f8c8d;">Market: ₹${product.marketPrice}/${product.quantity.unit}</span>
+                                                    <span style="font-weight: 700; color: #2c8c3a;">₹${product.pricePerUnit}/${product.quantity.unit}</span>
+                                                </div>
+                                                <div style="display: flex; justify-content: space-between;">
+                                                    <span>${product.qualityGrade.toUpperCase()}</span>
+                                                    <span style="color: ${product.pricePerUnit < product.marketPrice ? '#2c8c3a' : '#7f8c8d'}">
+                                                        ${product.pricePerUnit < product.marketPrice ? 'Good Deal' : 'Check Price'}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div style="display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 500; margin-bottom: 1rem; background-color: ${product.isAvailable ? '#d4edda' : '#f8d7da'}; color: ${product.isAvailable ? '#155724' : '#721c24'}">
+                                                ${product.isAvailable ? 'Available' : 'Sold Out'}
+                                            </div>
+                                            <div style="display: flex; gap: 10px;">
+                                                <button onclick="editProduct('${product.id}')" class="btn" style="flex: 1; background-color: #e3f2fd; color: #1976d2;">
+                                                    <i class="fas fa-edit"></i> Edit
+                                                </button>
+                                                <button onclick="deleteProduct('${product.id}')" class="btn" style="flex: 1; background-color: #f8d7da; color: #721c24;">
+                                                    <i class="fas fa-trash"></i> Delete
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <!-- Add Product Section -->
+                        <div id="addProductSection" class="section" style="display: none;">
+                            <div class="section-header">
+                                <h2><i class="fas fa-plus-circle"></i> Add New Product</h2>
+                                <button onclick="showSection('products')" class="btn btn-outline">
+                                    <i class="fas fa-arrow-left"></i> Back to Products
+                                </button>
+                            </div>
+                            
+                            <div class="grid-2">
+                                <div>
+                                    <form id="productForm">
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="addProductName">Product Name *</label>
+                                                <input type="text" id="addProductName" required placeholder="e.g., Tomato, Rice, Mango">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="addProductCategory">Category *</label>
+                                                <select id="addProductCategory" required>
+                                                    <option value="">Select Category</option>
+                                                    <option value="vegetables">Vegetables</option>
+                                                    <option value="fruits">Fruits</option>
+                                                    <option value="grains">Grains</option>
+                                                    <option value="dairy">Dairy</option>
+                                                    <option value="poultry">Poultry</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="quantityValue">Quantity *</label>
+                                                <div style="display: flex; gap: 10px;">
+                                                    <input type="number" id="quantityValue" min="1" required placeholder="100" style="flex: 1;">
+                                                    <select id="quantityUnit" style="width: 100px;">
+                                                        <option value="kg">kg</option>
+                                                        <option value="quintal">Quintal</option>
+                                                        <option value="ton">Ton</option>
+                                                        <option value="litre">Litre</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="qualityGrade">Quality Grade</label>
+                                                <select id="qualityGrade">
+                                                    <option value="regular">Regular</option>
+                                                    <option value="grade-a">Grade A</option>
+                                                    <option value="grade-b">Grade B</option>
+                                                    <option value="organic">Organic</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="pricePerUnit">Your Price (₹ per unit) *</label>
+                                                <input type="number" id="pricePerUnit" min="1" required placeholder="30">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Market Price</label>
+                                                <div id="marketPriceDisplay" style="text-align: center; padding: 1rem; background-color: #f8f9fa; border-radius: 4px; border: 2px dashed #ddd;">
+                                                    <span style="font-size: 1.5rem; font-weight: 700; color: #2c8c3a;">₹0</span>
+                                                    <div style="color: #7f8c8d; font-size: 0.9rem;">per unit</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="card mt-2 mb-2">
+                                            <h4 style="margin-bottom: 1rem;">Price Comparison</h4>
+                                            <div class="grid-3">
+                                                <div style="text-align: center;">
+                                                    <h5>Your Price</h5>
+                                                    <p id="yourPriceDisplay" style="font-size: 1.2rem; font-weight: 600;">₹0/unit</p>
+                                                </div>
+                                                <div style="text-align: center;">
+                                                    <h5>Market Average</h5>
+                                                    <p id="marketAverageDisplay" style="font-size: 1.2rem; font-weight: 600;">₹0/unit</p>
+                                                </div>
+                                                <div style="text-align: center;">
+                                                    <h5>Price Advice</h5>
+                                                    <p id="priceAdvice" style="font-size: 1.2rem; font-weight: 600; color: #7f8c8d;">Enter product name</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="productDescription">Description</label>
+                                            <textarea id="productDescription" rows="3" placeholder="Describe your product..."></textarea>
+                                        </div>
+                                        
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="harvestDate">Harvest Date</label>
+                                                <input type="date" id="harvestDate">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="productTags">Tags</label>
+                                                <input type="text" id="productTags" placeholder="fresh, organic, premium (comma separated)">
+                                            </div>
+                                        </div>
+                                        
+                                        <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem;">
+                                            <button type="button" onclick="showSection('products')" class="btn btn-outline">Cancel</button>
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="fas fa-save"></i> Add Product
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                                
+                                <div>
+                                    <div class="card">
+                                        <h3><i class="fas fa-lightbulb"></i> Tips for Better Sales</h3>
+                                        <ul style="list-style: none; padding: 0; margin-top: 1rem;">
+                                            <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative;">
+                                                <i class="fas fa-check" style="color: #2c8c3a; position: absolute; left: 0;"></i>
+                                                <strong>Set competitive prices:</strong> Check market prices before setting your price
+                                            </li>
+                                            <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative;">
+                                                <i class="fas fa-check" style="color: #2c8c3a; position: absolute; left: 0;"></i>
+                                                <strong>Clear descriptions:</strong> Mention quality, freshness, and special features
+                                            </li>
+                                            <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative;">
+                                                <i class="fas fa-check" style="color: #2c8c3a; position: absolute; left: 0;"></i>
+                                                <strong>Freshness matters:</strong> Update harvest date for better buyer trust
+                                            </li>
+                                            <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative;">
+                                                <i class="fas fa-check" style="color: #2c8c3a; position: absolute; left: 0;"></i>
+                                                <strong>Use tags:</strong> Help buyers find your products easily
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="card mt-2">
+                                        <h3><i class="fas fa-chart-line"></i> Today's Market Tips</h3>
+                                        <div id="marketTips" style="margin-top: 1rem;">
+                                            <p>Tomato prices are rising due to high demand</p>
+                                            <p>Consider holding potato stock for better prices next week</p>
+                                            <p>Onion market is stable - good time to sell</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Orders Section -->
+                        <div id="ordersSection" class="section" style="display: none;">
+                            <div class="section-header">
+                                <h2><i class="fas fa-shopping-cart"></i> My Orders</h2>
+                                <select id="orderStatusFilter">
+                                    <option value="all">All Orders</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="confirmed">Confirmed</option>
+                                    <option value="shipped">Shipped</option>
+                                    <option value="delivered">Delivered</option>
+                                </select>
+                            </div>
+                            
+                            <div id="ordersContainer">
+                                <div class="card">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #eee;">
+                                        <div>
+                                            <h4 style="margin: 0;">Order #ORD00123</h4>
+                                            <p style="margin: 0.25rem 0; color: #7f8c8d;">Tomato • 100 kg</p>
+                                        </div>
+                                        <span style="background-color: #fff3cd; color: #856404; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem;">
+                                            PENDING
+                                        </span>
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                                        <div>
+                                            <label style="display: block; color: #7f8c8d; font-size: 0.9rem;">Total Amount</label>
+                                            <p style="margin: 0; font-weight: 500;">₹3,000</p>
+                                        </div>
+                                        <div>
+                                            <label style="display: block; color: #7f8c8d; font-size: 0.9rem;">You Receive</label>
+                                            <p style="margin: 0; font-weight: 500;">₹2,910</p>
+                                        </div>
+                                        <div>
+                                            <label style="display: block; color: #7f8c8d; font-size: 0.9rem;">Buyer</label>
+                                            <p style="margin: 0; font-weight: 500;">Amit Sharma</p>
+                                        </div>
+                                        <div>
+                                            <label style="display: block; color: #7f8c8d; font-size: 0.9rem;">Order Date</label>
+                                            <p style="margin: 0; font-weight: 500;">${Utils.formatDate(new Date())}</p>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; gap: 10px;">
+                                        <button class="btn btn-small" style="background-color: #d4edda; color: #155724;">Confirm</button>
+                                        <button class="btn btn-small" style="background-color: #f8d7da; color: #721c24;">Cancel</button>
+                                        <button class="btn btn-small btn-outline">Message Buyer</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('page-content').innerHTML = html;
+                
+                // Add event listeners for section switching
+                setTimeout(() => {
+                    // Section switching
+                    window.showSection = function(sectionId) {
+                        // Hide all sections
+                        ['dashboardSection', 'productsSection', 'addProductSection', 'ordersSection'].forEach(id => {
+                            const el = document.getElementById(id);
+                            if (el) el.style.display = 'none';
+                        });
+                        
+                        // Show selected section
+                        const targetSection = document.getElementById(sectionId + 'Section');
+                        if (targetSection) {
+                            targetSection.style.display = 'block';
+                        }
+                        
+                        // Update nav links
+                        document.querySelectorAll('.nav-link').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        document.querySelector(`a[onclick*="${sectionId}"]`).classList.add('active');
+                    };
+                    
+                    // Product form submission
+                    document.getElementById('productForm').addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        
+                        const productName = document.getElementById('addProductName').value;
+                        const category = document.getElementById('addProductCategory').value;
+                        const quantityValue = document.getElementById('quantityValue').value;
+                        const quantityUnit = document.getElementById('quantityUnit').value;
+                        const pricePerUnit = document.getElementById('pricePerUnit').value;
+                        
+                        if (!productName || !category || !quantityValue || !pricePerUnit) {
+                            Utils.showNotification('Please fill all required fields', 'warning');
+                            return;
+                        }
+                        
+                        // Create new product
+                        const newProduct = {
+                            id: Utils.generateId(),
+                            farmerId: user.id,
+                            productName: productName,
+                            category: category,
+                            description: document.getElementById('productDescription').value,
+                            quantity: { value: parseInt(quantityValue), unit: quantityUnit },
+                            pricePerUnit: parseInt(pricePerUnit),
+                            marketPrice: MockData.marketPrices[productName.toLowerCase()]?.price || parseInt(pricePerUnit) * 1.1,
+                            qualityGrade: document.getElementById('qualityGrade').value,
+                            isAvailable: true,
+                            harvestDate: new Date().toISOString(),
+                            location: user.location,
+                            tags: document.getElementById('productTags').value.split(',').map(t => t.trim()),
+                            createdAt: new Date().toISOString()
+                        };
+                        
+                        MockData.products.push(newProduct);
+                        Utils.showNotification('Product added successfully!', 'success');
+                        
+                        // Reset form
+                        this.reset();
+                        
+                        // Switch to products section
+                        showSection('products');
+                        
+                        // Reload products grid
+                        setTimeout(() => {
+                            Router.renderFarmerDashboard();
+                            showSection('products');
+                        }, 100);
+                    });
+                    
+                    // Market price lookup
+                    document.getElementById('addProductName').addEventListener('input', function() {
+                        const productName = this.value.toLowerCase();
+                        const marketPrice = MockData.marketPrices[productName]?.price || 25;
+                        document.getElementById('marketPriceDisplay').innerHTML = `
+                            <span style="font-size: 1.5rem; font-weight: 700; color: #2c8c3a;">₹${marketPrice}</span>
+                            <div style="color: #7f8c8d; font-size: 0.9rem;">per unit</div>
+                        `;
+                        document.getElementById('marketAverageDisplay').textContent = `₹${marketPrice}/unit`;
+                        
+                        const yourPrice = parseInt(document.getElementById('pricePerUnit').value) || 0;
+                        updatePriceAdvice(yourPrice, marketPrice);
+                    });
+                    
+                    document.getElementById('pricePerUnit').addEventListener('input', function() {
+                        const yourPrice = parseInt(this.value) || 0;
+                        const marketPrice = parseInt(document.getElementById('marketAverageDisplay').textContent.replace('₹', '').replace('/unit', '')) || 0;
+                        updatePriceAdvice(yourPrice, marketPrice);
+                    });
+                    
+                    function updatePriceAdvice(yourPrice, marketPrice) {
+                        document.getElementById('yourPriceDisplay').textContent = `₹${yourPrice}/unit`;
+                        
+                        if (marketPrice > 0 && yourPrice > 0) {
+                            const difference = ((yourPrice - marketPrice) / marketPrice * 100);
+                            const adviceElement = document.getElementById('priceAdvice');
+                            
+                            if (difference > 20) {
+                                adviceElement.textContent = 'Price too high';
+                                adviceElement.style.color = '#e74c3c';
+                            } else if (difference > 10) {
+                                adviceElement.textContent = 'Above market';
+                                adviceElement.style.color = '#f39c12';
+                            } else if (difference < -10) {
+                                adviceElement.textContent = 'Good deal!';
+                                adviceElement.style.color = '#2c8c3a';
+                            } else if (difference < -20) {
+                                adviceElement.textContent = 'Great price!';
+                                adviceElement.style.color = '#2c8c3a';
+                            } else {
+                                adviceElement.textContent = 'Market price';
+                                adviceElement.style.color = '#7f8c8d';
+                            }
+                        }
+                    }
+                    
+                    // Product actions
+                    window.editProduct = function(productId) {
+                        const product = MockData.products.find(p => p.id === productId);
+                        if (product) {
+                            // Populate form
+                            document.getElementById('addProductName').value = product.productName;
+                            document.getElementById('addProductCategory').value = product.category;
+                            document.getElementById('quantityValue').value = product.quantity.value;
+                            document.getElementById('quantityUnit').value = product.quantity.unit;
+                            document.getElementById('pricePerUnit').value = product.pricePerUnit;
+                            document.getElementById('qualityGrade').value = product.qualityGrade;
+                            document.getElementById('productDescription').value = product.description || '';
+                            document.getElementById('harvestDate').value = product.harvestDate.split('T')[0];
+                            document.getElementById('productTags').value = product.tags?.join(', ') || '';
+                            
+                            // Trigger market price update
+                            document.getElementById('addProductName').dispatchEvent(new Event('input'));
+                            
+                            // Change form to edit mode
+                            const form = document.getElementById('productForm');
+                            form.dataset.editId = productId;
+                            form.querySelector('button[type="submit"]').innerHTML = '<i class="fas fa-save"></i> Update Product';
+                            
+                            // Switch to add product section
+                            showSection('addProduct');
+                        }
+                    };
+                    
+                    window.deleteProduct = function(productId) {
+                        if (confirm('Are you sure you want to delete this product?')) {
+                            MockData.products = MockData.products.filter(p => p.id !== productId);
+                            Utils.showNotification('Product deleted successfully', 'success');
+                            Router.renderFarmerDashboard();
+                            showSection('products');
+                        }
+                    };
+                }, 100);
+            },
+
+            renderBuyerDashboard() {
+                // Check authentication
+                if (!AppState.currentUser) {
+                    Storage.set('currentUser', null);
+                    Router.navigate('/login');
+                    return;
+                }
+                
+                const user = AppState.currentUser;
+                const allProducts = MockData.products;
+                
+                const html = `
+                    <nav class="navbar">
+                        <div class="container">
+                            <div class="nav-brand">
+                                <h1><i class="fas fa-shopping-basket"></i> ${Config.APP_NAME}</h1>
+                                <span class="user-role">Buyer Dashboard</span>
+                            </div>
+                            <div class="nav-menu">
+                                <a href="#" class="nav-link active" onclick="showBuyerSection('browse')">
+                                    <i class="fas fa-search"></i> Browse Products
+                                </a>
+                                <a href="#" class="nav-link" onclick="showBuyerSection('myOrders')">
+                                    <i class="fas fa-shopping-cart"></i> My Orders
+                                </a>
+                                <div style="display: flex; gap: 10px; margin-left: auto;">
+                                    <input type="text" id="globalSearch" placeholder="Search products..." style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; min-width: 200px;">
+                                    <button onclick="searchProducts()" class="btn btn-small"><i class="fas fa-search"></i></button>
+                                </div>
+                                <div style="margin-left: 1rem; position: relative;">
+                                    <button style="background: none; border: none; color: #2c3e50; font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                                        <i class="fas fa-user-circle"></i>
+                                        <span>${user.fullName}</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </button>
+                                    <div style="position: absolute; right: 0; background-color: white; border-radius: 4px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); min-width: 150px; display: none;">
+                                        <a href="#" style="display: block; padding: 10px 15px; color: #333; text-decoration: none;">Profile</a>
+                                        <a href="#" onclick="Auth.logout()" style="display: block; padding: 10px 15px; color: #e74c3c; text-decoration: none;">Logout</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+
+                    <div class="container" style="padding: 2rem 0;">
+                        <!-- Browse Products Section -->
+                        <div id="browseSection" class="section">
+                            <div class="section-header">
+                                <h2><i class="fas fa-search"></i> Browse Fresh Produce</h2>
+                                <p>Find the best quality products directly from farmers</p>
+                            </div>
+                            
+                            <div style="background-color: white; border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem; display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+                                <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+                                    <label style="font-weight: 500; color: #2c3e50; display: flex; align-items: center; gap: 8px;">
+                                        <i class="fas fa-filter"></i> Filters
+                                    </label>
+                                    <select id="categoryFilter" onchange="filterProducts()" style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; min-width: 150px;">
+                                        <option value="">All Categories</option>
+                                        <option value="vegetables">Vegetables</option>
+                                        <option value="fruits">Fruits</option>
+                                        <option value="grains">Grains</option>
+                                        <option value="dairy">Dairy</option>
+                                    </select>
+                                    
+                                    <select id="locationFilter" onchange="filterProducts()" style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; min-width: 150px;">
+                                        <option value="">All Locations</option>
+                                        <option value="Pune">Pune</option>
+                                        <option value="Mumbai">Mumbai</option>
+                                        <option value="Nashik">Nashik</option>
+                                    </select>
+                                    
+                                    <select id="sortFilter" onchange="filterProducts()" style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; min-width: 150px;">
+                                        <option value="newest">Newest First</option>
+                                        <option value="price-low">Price: Low to High</option>
+                                        <option value="price-high">Price: High to Low</option>
+                                    </select>
+                                </div>
+                                
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <label>Price Range (₹):</label>
+                                    <input type="number" id="minPrice" placeholder="Min" style="width: 80px; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                    <span> - </span>
+                                    <input type="number" id="maxPrice" placeholder="Max" style="width: 80px; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                </div>
+                                
+                                <button onclick="resetFilters()" class="btn btn-outline">
+                                    <i class="fas fa-redo"></i> Reset
+                                </button>
+                            </div>
+                            
+                            <div style="background: linear-gradient(135deg, #2c8c3a 0%, #247932 100%); color: white; border-radius: 8px; padding: 1rem 1.5rem; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
+                                <h3 style="color: white; margin: 0; display: flex; align-items: center; gap: 10px;">
+                                    <i class="fas fa-chart-line"></i> Today's Market Prices
+                                </h3>
+                                <div id="priceTicker" style="display: flex; gap: 2rem; overflow: hidden; width: 400px;">
+                                    <span>Tomato: ₹32/kg ↗</span>
+                                    <span>Potato: ₹18/kg ↘</span>
+                                    <span>Onion: ₹28/kg →</span>
+                                    <span>Rice: ₹45/kg ↗</span>
+                                </div>
+                            </div>
+                            
+                            <div class="products-grid" id="buyerProductsGrid">
+                                ${allProducts.map(product => {
+                                    const farmer = MockData.users.find(u => u.id === product.farmerId);
+                                    return `
+                                        <div class="product-card">
+                                            <div class="product-image">
+                                                <i class="fas fa-apple-alt" style="font-size: 3rem; color: #7f8c8d;"></i>
+                                            </div>
+                                            <div class="product-content">
+                                                <div style="margin-bottom: 1rem;">
+                                                    <h3 style="margin: 0 0 0.5rem 0;">${product.productName}</h3>
+                                                    <div style="display: flex; align-items: center; gap: 8px; color: #7f8c8d; font-size: 0.9rem;">
+                                                        <i class="fas fa-user"></i>
+                                                        <span>${farmer?.fullName || 'Farmer'}</span>
+                                                        <span style="color: #ffd700;">★ ${farmer?.rating || 0}</span>
+                                                    </div>
+                                                </div>
+                                                <div style="display: grid; gap: 0.75rem; margin-bottom: 1rem;">
+                                                    <div style="display: flex; justify-content: space-between;">
+                                                        <span style="color: #666;">Category:</span>
+                                                        <span style="font-weight: 500;">${product.category}</span>
+                                                    </div>
+                                                    <div style="display: flex; justify-content: space-between;">
+                                                        <span style="color: #666;">Quantity:</span>
+                                                        <span style="font-weight: 500;">${product.quantity.value} ${product.quantity.unit}</span>
+                                                    </div>
+                                                    <div style="display: flex; justify-content: space-between;">
+                                                        <span style="color: #666;">Location:</span>
+                                                        <span style="font-weight: 500;">${product.location?.district || 'N/A'}</span>
+                                                    </div>
+                                                    <div style="display: flex; justify-content: space-between;">
+                                                        <span style="color: #666;">Quality:</span>
+                                                        <span style="font-weight: 500;">${product.qualityGrade.toUpperCase()}</span>
+                                                    </div>
+                                                </div>
+                                                <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 4px; margin-bottom: 1rem;">
+                                                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                                        <span style="font-size: 1.5rem; font-weight: 700; color: #2c8c3a;">₹${product.pricePerUnit}/${product.quantity.unit}</span>
+                                                        <span style="color: #7f8c8d; text-decoration: line-through;">Market: ₹${product.marketPrice}/${product.quantity.unit}</span>
+                                                    </div>
+                                                    <div style="color: #2c8c3a; font-weight: 500; font-size: 0.9rem;">
+                                                        Save ₹${product.marketPrice - product.pricePerUnit} per unit
+                                                    </div>
+                                                </div>
+                                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                                                    <button onclick="startChat('${product.farmerId}', '${farmer?.fullName || 'Farmer'}')" class="btn" style="background-color: #e3f2fd; color: #1976d2;">
+                                                        <i class="fas fa-comment"></i> Chat
+                                                    </button>
+                                                    <button onclick="showOrderModal('${product.id}')" class="btn" style="background-color: #2c8c3a; color: white;">
+                                                        <i class="fas fa-shopping-cart"></i> Buy Now
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+
+                        <!-- My Orders Section -->
+                        <div id="myOrdersSection" class="section" style="display: none;">
+                            <div class="section-header">
+                                <h2><i class="fas fa-shopping-cart"></i> My Orders</h2>
+                                <select id="myOrderFilter">
+                                    <option value="all">All Orders</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="confirmed">Confirmed</option>
+                                    <option value="shipped">Shipped</option>
+                                    <option value="delivered">Delivered</option>
+                                </select>
+                            </div>
+                            
+                            <div id="buyerOrdersContainer">
+                                <div class="card">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #eee;">
+                                        <div>
+                                            <h4 style="margin: 0;">Order #ORD00123</h4>
+                                            <p style="margin: 0.25rem 0; color: #7f8c8d;">Tomato • 100 kg</p>
+                                        </div>
+                                        <span style="background-color: #fff3cd; color: #856404; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem;">
+                                            PENDING
+                                        </span>
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                                        <div>
+                                            <label style="display: block; color: #7f8c8d; font-size: 0.9rem;">Total Amount</label>
+                                            <p style="margin: 0; font-weight: 500;">₹3,000</p>
+                                        </div>
+                                        <div>
+                                            <label style="display: block; color: #7f8c8d; font-size: 0.9rem;">Farmer</label>
+                                            <p style="margin: 0; font-weight: 500;">Rajesh Kumar</p>
+                                        </div>
+                                        <div>
+                                            <label style="display: block; color: #7f8c8d; font-size: 0.9rem;">Order Date</label>
+                                            <p style="margin: 0; font-weight: 500;">${Utils.formatDate(new Date())}</p>
+                                        </div>
+                                        <div>
+                                            <label style="display: block; color: #7f8c8d; font-size: 0.9rem;">Status</label>
+                                            <p style="margin: 0; font-weight: 500;">Pending</p>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; gap: 10px;">
+                                        <button class="btn btn-small" style="background-color: #f8d7da; color: #721c24;">Cancel Order</button>
+                                        <button class="btn btn-small btn-outline">Message Farmer</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('page-content').innerHTML = html;
+                
+                // Add event listeners
+                setTimeout(() => {
+                    // Section switching
+                    window.showBuyerSection = function(sectionId) {
+                        // Hide all sections
+                        ['browseSection', 'myOrdersSection'].forEach(id => {
+                            const el = document.getElementById(id);
+                            if (el) el.style.display = 'none';
+                        });
+                        
+                        // Show selected section
+                        const targetSection = document.getElementById(sectionId + 'Section');
+                        if (targetSection) {
+                            targetSection.style.display = 'block';
+                        }
+                        
+                        // Update nav links
+                        document.querySelectorAll('.nav-link').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        document.querySelector(`a[onclick*="${sectionId}"]`).classList.add('active');
+                    };
+                    
+                    // Filter functions
+                    window.filterProducts = Utils.debounce(function() {
+                        const category = document.getElementById('categoryFilter').value;
+                        const location = document.getElementById('locationFilter').value;
+                        const minPrice = document.getElementById('minPrice').value;
+                        const maxPrice = document.getElementById('maxPrice').value;
+                        const search = document.getElementById('globalSearch').value;
+                        
+                        console.log('Filtering with:', { category, location, minPrice, maxPrice, search });
+                        Utils.showNotification('Filtering products...', 'info');
+                    }, 500);
+                    
+                    window.resetFilters = function() {
+                        document.getElementById('categoryFilter').value = '';
+                        document.getElementById('locationFilter').value = '';
+                        document.getElementById('minPrice').value = '';
+                        document.getElementById('maxPrice').value = '';
+                        document.getElementById('sortFilter').value = 'newest';
+                        document.getElementById('globalSearch').value = '';
+                        Utils.showNotification('Filters reset', 'info');
+                    };
+                    
+                    window.searchProducts = function() {
+                        const search = document.getElementById('globalSearch').value;
+                        Utils.showNotification(`Searching for: ${search}`, 'info');
+                    };
+                    
+                    // Chat function
+                    window.startChat = function(farmerId, farmerName) {
+                        Utils.showNotification(`Starting chat with ${farmerName}`, 'info');
+                    };
+                    
+                    // Order modal
+                    window.showOrderModal = function(productId) {
+                        const product = MockData.products.find(p => p.id === productId);
+                        const farmer = MockData.users.find(u => u.id === product.farmerId);
+                        
+                        if (!product) return;
+                        
+                        const modalHtml = `
+                            <div class="modal-content">
+                                <span class="close" onclick="closeModal()">&times;</span>
+                                <h2>Place Order</h2>
+                                
+                                <div style="display: flex; gap: 2rem; margin-bottom: 2rem;">
+                                    <div style="flex: 0 0 200px; height: 150px; background-color: #f8f9fa; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-apple-alt" style="font-size: 3rem; color: #7f8c8d;"></i>
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                                            <h3 style="margin: 0;">${product.productName}</h3>
+                                            <span style="color: #7f8c8d;">${product.category}</span>
+                                        </div>
+                                        
+                                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; padding: 1rem; background-color: #f8f9fa; border-radius: 8px;">
+                                            <div style="width: 40px; height: 40px; border-radius: 50%; background-color: #2c8c3a; color: white; display: flex; align-items: center; justify-content: center; font-weight: 600;">
+                                                ${farmer?.fullName?.charAt(0) || 'F'}
+                                            </div>
+                                            <div>
+                                                <h4 style="margin: 0 0 0.25rem 0;">${farmer?.fullName || 'Farmer'}</h4>
+                                                <p style="margin: 0; color: #7f8c8d; font-size: 0.9rem;">
+                                                    <i class="fas fa-map-marker-alt"></i> ${product.location?.district || 'Location not specified'}
+                                                    ${farmer?.rating ? ` • ★ ${farmer.rating}` : ''}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 2rem;">
+                                            <div>
+                                                <label style="display: block; color: #7f8c8d; font-size: 0.9rem; margin-bottom: 0.5rem;">Quantity Available</label>
+                                                <p style="margin: 0; font-weight: 500; font-size: 1.1rem;">${product.quantity.value} ${product.quantity.unit}</p>
+                                            </div>
+                                            <div>
+                                                <label style="display: block; color: #7f8c8d; font-size: 0.9rem; margin-bottom: 0.5rem;">Price Per Unit</label>
+                                                <p style="margin: 0; font-weight: 500; font-size: 1.1rem;">₹${product.pricePerUnit}/${product.quantity.unit}</p>
+                                            </div>
+                                            <div>
+                                                <label style="display: block; color: #7f8c8d; font-size: 0.9rem; margin-bottom: 0.5rem;">Market Price</label>
+                                                <p style="margin: 0; font-weight: 500; font-size: 1.1rem;">₹${product.marketPrice}/${product.quantity.unit}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <form id="orderForm">
+                                    <div class="form-group">
+                                        <label for="orderQuantity">Quantity (${product.quantity.unit}) *</label>
+                                        <div style="display: flex; align-items: center; gap: 1rem;">
+                                            <div style="display: flex; align-items: center; gap: 10px;">
+                                                <button type="button" class="btn" onclick="updateOrderQuantity(-1)" style="width: 40px; height: 40px; border: 1px solid #ddd; background-color: white;">-</button>
+                                                <input type="number" id="orderQuantity" value="1" min="1" max="${product.quantity.value}" style="width: 60px; text-align: center; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                                                <button type="button" class="btn" onclick="updateOrderQuantity(1)" style="width: 40px; height: 40px; border: 1px solid #ddd; background-color: white;">+</button>
+                                            </div>
+                                            <span style="color: #7f8c8d; font-size: 0.9rem;">Max: ${product.quantity.value} ${product.quantity.unit}</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="deliveryAddress">Delivery Address *</label>
+                                        <textarea id="deliveryAddress" rows="3" required placeholder="Enter complete delivery address including pincode"></textarea>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="orderNotes">Notes (Optional)</label>
+                                        <textarea id="orderNotes" rows="2" placeholder="Any special instructions..."></textarea>
+                                    </div>
+                                    
+                                    <div style="background-color: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+                                        <h4 style="margin-bottom: 1rem;">Order Summary</h4>
+                                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1rem;">
+                                            <div style="text-align: center; padding: 1rem; background-color: white; border-radius: 8px;">
+                                                <h5 style="color: #666; font-size: 0.9rem; margin-bottom: 0.5rem;">Product Total</h5>
+                                                <p style="margin: 0; font-size: 1.2rem; font-weight: 600;" id="productTotal">₹${product.pricePerUnit}</p>
+                                            </div>
+                                            <div style="text-align: center; padding: 1rem; background-color: white; border-radius: 8px;">
+                                                <h5 style="color: #666; font-size: 0.9rem; margin-bottom: 0.5rem;">Platform Fee (3%)</h5>
+                                                <p style="margin: 0; font-size: 1.2rem; font-weight: 600;" id="platformFee">₹${(product.pricePerUnit * 0.03).toFixed(2)}</p>
+                                            </div>
+                                        </div>
+                                        <div style="text-align: center; padding: 1rem; background-color: white; border-radius: 8px; border: 2px solid #2c8c3a;">
+                                            <h5 style="color: #2c8c3a; font-size: 1rem; margin-bottom: 0.5rem;">Amount to Pay</h5>
+                                            <p style="margin: 0; font-size: 1.5rem; font-weight: 600; color: #2c8c3a;" id="totalAmount">₹${product.pricePerUnit}</p>
+                                        </div>
+                                        <div style="text-align: center; margin-top: 1rem;">
+                                            <small style="color: #7f8c8d;">₹${(product.pricePerUnit * 0.97).toFixed(2)} will be paid to the farmer after delivery</small>
+                                        </div>
+                                    </div>
+                                    
+                                    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                                        <button type="button" onclick="closeModal()" class="btn btn-outline">Cancel</button>
+                                        <button type="submit" class="btn btn-primary">Place Order</button>
+                                    </div>
+                                </form>
+                            </div>
+                        `;
+                        
+                        document.getElementById('modal-container').innerHTML = `
+                            <div class="modal" id="orderModal" style="display: block;">
+                                ${modalHtml}
+                            </div>
+                        `;
+                        
+                        // Add event listeners for the modal
+                        setTimeout(() => {
+                            // Quantity update
+                            window.updateOrderQuantity = function(change) {
+                                const quantityInput = document.getElementById('orderQuantity');
+                                let newQuantity = parseInt(quantityInput.value) + change;
+                                if (newQuantity < 1) newQuantity = 1;
+                                if (newQuantity > product.quantity.value) newQuantity = product.quantity.value;
+                                quantityInput.value = newQuantity;
+                                
+                                // Update totals
+                                const productTotal = newQuantity * product.pricePerUnit;
+                                const platformFee = productTotal * Config.COMMISSION_RATE;
+                                const totalAmount = productTotal;
+                                const farmerAmount = productTotal - platformFee;
+                                
+                                document.getElementById('productTotal').textContent = `₹${productTotal}`;
+                                document.getElementById('platformFee').textContent = `₹${platformFee.toFixed(2)}`;
+                                document.getElementById('totalAmount').textContent = `₹${totalAmount}`;
+                                
+                                // Update note
+                                document.querySelector('#orderModal small').textContent = 
+                                    `₹${farmerAmount.toFixed(2)} will be paid to the farmer after delivery`;
+                            };
+                            
+                            // Initial calculation
+                            updateOrderQuantity(0);
+                            
+                            // Form submission
+                            document.getElementById('orderForm').addEventListener('submit', function(e) {
+                                e.preventDefault();
+                                
+                                const quantity = parseInt(document.getElementById('orderQuantity').value);
+                                const address = document.getElementById('deliveryAddress').value;
+                                
+                                if (!address.trim()) {
+                                    Utils.showNotification('Please enter delivery address', 'warning');
+                                    return;
+                                }
+                                
+                                // Calculate amounts
+                                const productTotal = quantity * product.pricePerUnit;
+                                const platformFee = productTotal * Config.COMMISSION_RATE;
+                                const farmerAmount = productTotal - platformFee;
+                                
+                                // Create order
+                                const order = {
+                                    id: Utils.generateId(),
+                                    orderId: `ORD${Date.now()}`,
+                                    buyerId: user.id,
+                                    farmerId: product.farmerId,
+                                    productId: product.id,
+                                    quantity: quantity,
+                                    unitPrice: product.pricePerUnit,
+                                    totalAmount: productTotal,
+                                    commission: platformFee,
+                                    farmerAmount: farmerAmount,
+                                    platformAmount: platformFee,
+                                    status: 'pending',
+                                    deliveryAddress: address,
+                                    notes: document.getElementById('orderNotes').value,
+                                    createdAt: new Date().toISOString()
+                                };
+                                
+                                Utils.showNotification(`Order placed successfully! Order #${order.orderId}`, 'success');
+                                closeModal();
+                                
+                                // Update product quantity
+                                product.quantity.value -= quantity;
+                                if (product.quantity.value <= 0) {
+                                    product.isAvailable = false;
+                                }
+                                
+                                // Switch to orders section
+                                showBuyerSection('myOrders');
+                            });
+                            
+                            // Close modal
+                            window.closeModal = function() {
+                                document.getElementById('modal-container').innerHTML = '';
+                            };
+                        }, 100);
+                    };
+                }, 100);
+            }
+        };
+
+        // ==============================================
+        // AUTHENTICATION MODULE
+        // ==============================================
+        const Auth = {
+            login(username, password) {
+                // Find user in mock data
+                const user = MockData.users.find(u => 
+                    u.username === username && u.password === password
+                );
+                
+                if (user) {
+                    // Remove password before storing
+                    const { password: _, ...userWithoutPassword } = user;
+                    Storage.set('currentUser', userWithoutPassword);
+                    AppState.currentUser = userWithoutPassword;
+                    
+                    Utils.showNotification('Login successful!', 'success');
+                    
+                    // Redirect to appropriate dashboard
+                    setTimeout(() => {
+                        if (user.role === 'farmer') {
+                            Router.navigate('/farmer-dashboard');
+                        } else {
+                            Router.navigate('/buyer-dashboard');
+                        }
+                    }, 1000);
+                } else {
+                    Utils.showNotification('Invalid username or password', 'error');
+                }
+            },
+
+            loginDemo(username, password) {
+                document.getElementById('username').value = username;
+                document.getElementById('password').value = password;
+                setTimeout(() => {
+                    document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+                }, 100);
+            },
+
+            logout() {
+                Storage.remove('currentUser');
+                AppState.currentUser = null;
+                Router.navigate('/login');
+                Utils.showNotification('Logged out successfully', 'info');
+            },
+
+            checkAuth() {
+                const user = Storage.get('currentUser');
+                if (user) {
+                    AppState.currentUser = user;
+                }
+                return user;
+            }
+        };
+
+        // ==============================================
+        // INITIALIZATION
+        // ==============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is already logged in
+            Auth.checkAuth();
+            
+            // Initialize router
+            Router.handleRoute();
+            
+            // Handle browser back/forward buttons
+            window.addEventListener('popstate', () => {
+                Router.handleRoute();
+            });
+            
+            // Store mock data in localStorage for persistence
+            if (!Storage.get('mockData')) {
+                Storage.set('mockData', MockData);
+            }
+        });
+
+        // ==============================================
+        // GLOBAL FUNCTIONS
+        // ==============================================
+        // These functions need to be available globally
+        window.Router = Router;
+        window.Auth = Auth;
+        window.Utils = Utils;
+        window.showSection = function(sectionId) {
+            // This will be defined in the specific dashboard pages
+            console.log('Show section:', sectionId);
+        };
+    </script>
+</body>
+</html>
